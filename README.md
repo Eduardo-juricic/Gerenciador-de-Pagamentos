@@ -9,6 +9,7 @@ Permite criar, visualizar, concluir e excluir tarefas de forma simples e rápida
 
 - ➕ **Adicionar tarefas** com título e descrição
 - ✅ **Marcar tarefas como concluídas**
+- ✏️ **Editar tarefas** já criada
 - 🗑️ **Excluir tarefas**
 - 🔍 **Ver detalhes da tarefa** em uma rota separada
 - 📱 Interface **responsiva** e moderna com Tailwind CSS
