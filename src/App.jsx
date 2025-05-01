@@ -53,13 +53,13 @@ function App() {
         <button
           onClick={toggleDarkMode} // Use a função do contexto
           className={clsx(
-            "px-4 py-2 rounded text-sm font-semibold transition-colors duration-300 absolute top-6 right-6",
+            "px-4 py-2 rounded text-sm font-semibold transition-colors duration-300 absolute bottom-6 right-6",
             darkMode
               ? "bg-white text-gray-900 hover:bg-gray-200"
               : "bg-gray-800 text-white hover:bg-gray-600"
           )}
         >
-          Alternar para {darkMode ? "Modo Claro" : "Modo Escuro"}
+          Alternar para {darkMode ? "Light Mode" : "Dark mode"}
         </button>
 
         <h1
