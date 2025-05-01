@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react"; // Import useContext
 import AddTask from "./components/AddTask";
 import Tasks from "./components/Tasks";
 import "./index.css";
 import { v4 } from "uuid";
-import { clsx } from "clsx"; // Importação do clsx
+import { clsx } from "clsx";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 function App() {
   const [tasks, setTasks] = useState(
     JSON.parse(localStorage.getItem("tasks")) || []
   );
-  const [darkMode, setDarkMode] = useState(false); // Estado para Dark Mode
+  const { darkMode, toggleDarkMode } = useContext(ThemeContext); // Acesse o contexto
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -50,7 +51,7 @@ function App() {
       <div className="w-[500px] space-y-4">
         {/* Botão para alternar o modo */}
         <button
-          onClick={() => setDarkMode(!darkMode)}
+          onClick={toggleDarkMode} // Use a função do contexto
           className={clsx(
             "px-4 py-2 rounded text-sm font-semibold transition-colors duration-300 absolute top-6 right-6",
             darkMode
