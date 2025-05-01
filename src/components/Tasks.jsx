@@ -1,11 +1,12 @@
-import { ChevronRightIcon, TrashIcon } from "lucide-react";
+import { ChevronRightIcon, TrashIcon, EditIcon } from "lucide-react"; // Importe EditIcon
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { useContext } from "react"; // Import useContext
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { clsx } from "clsx";
 
-function Tasks({ tasks, onTaskClick, onDeleteTaskClick }) {
+function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
+  // Receba onStartEdit como prop
   const navigate = useNavigate();
   const { darkMode } = useContext(ThemeContext); // Acesse o estado darkMode
 
@@ -56,6 +57,17 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick }) {
             )}
           >
             <TrashIcon />
+          </button>
+          <button // Botão de editar
+            onClick={() => onStartEdit(task)}
+            className={clsx(
+              "p-2 rounded-md text-white",
+              darkMode
+                ? "bg-blue-600 hover:bg-blue-700"
+                : "bg-slate-400 hover:bg-slate-500"
+            )}
+          >
+            <EditIcon />
           </button>
         </li>
       ))}

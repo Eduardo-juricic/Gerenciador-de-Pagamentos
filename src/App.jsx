@@ -5,12 +5,15 @@ import "./index.css";
 import { v4 } from "uuid";
 import { clsx } from "clsx";
 import { ThemeContext } from "../contexts/ThemeContext";
+import EditTask from "./components/EditTask"; // Importe o componente EditTask
 
 function App() {
   const [tasks, setTasks] = useState(
     JSON.parse(localStorage.getItem("tasks")) || []
   );
   const { darkMode, toggleDarkMode } = useContext(ThemeContext); // Acesse o contexto
+  const [isEditing, setIsEditing] = useState(false); // Novo estado para controlar a edição
+  const [taskToEdit, setTaskToEdit] = useState(null); // Novo estado para armazenar a tarefa a ser editada
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -40,6 +43,27 @@ function App() {
     };
     setTasks([...tasks, newtask]);
   }
+
+  const handleStartEdit = (task) => {
+    setTaskToEdit(task);
+    setIsEditing(true);
+  };
+
+  const handleSaveEdit = (id, newTitle, newDescription) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === id
+        ? { ...task, title: newTitle, description: newDescription }
+        : task
+    );
+    setTasks(updatedTasks);
+    setIsEditing(false);
+    setTaskToEdit(null);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setTaskToEdit(null);
+  };
 
   return (
     <div
@@ -72,10 +96,20 @@ function App() {
         </h1>
 
         <AddTask onAddTaskSubmit={onAddTaskSubmit} />
+
+        {isEditing && taskToEdit && (
+          <EditTask
+            task={taskToEdit}
+            onSaveEdit={handleSaveEdit}
+            onCancelEdit={handleCancelEdit}
+          />
+        )}
+
         <Tasks
           tasks={tasks}
           onTaskClick={onTaskClick}
           onDeleteTaskClick={onDeleteTaskClick}
+          onStartEdit={handleStartEdit} // Passe a função para iniciar a edição
         />
       </div>
     </div>
