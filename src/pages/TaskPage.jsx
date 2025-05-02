@@ -65,7 +65,7 @@ function TaskPage() {
             </a>
 
             <a
-              href="intent://#Intent;package=com.intermedium.interpag;scheme=inter;end"
+              href="https://play.google.com/store/apps/details?id=com.intermedium.interpag"
               className="flex items-center gap-2 w-40 px-3 py-1.5 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 transition-colors duration-300"
             >
               <Banknote size={18} />
