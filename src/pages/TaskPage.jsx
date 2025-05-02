@@ -57,7 +57,7 @@ function TaskPage() {
           </p>
           <div className="flex flex-col space-y-3 mt-6">
             <a
-              href="intent://#Intent;package=com.nu.production;scheme=nubank;end"
+              href="https://play.google.com/store/search?q=Nubank&c=apps"
               className="flex items-center gap-2 w-40 px-3 py-1.5 bg-purple-600 text-white text-sm rounded hover:bg-purple-700 transition-colors duration-300"
             >
               <CreditCard size={18} />
@@ -65,7 +65,7 @@ function TaskPage() {
             </a>
 
             <a
-              href="https://play.google.com/store/search?q=inter&c=apps"
+              href="https://play.google.com/store/search?q=Banco+Inter&c=apps"
               className="flex items-center gap-2 w-40 px-3 py-1.5 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 transition-colors duration-300"
             >
               <Banknote size={18} />
@@ -73,7 +73,7 @@ function TaskPage() {
             </a>
 
             <a
-              href="intent://#Intent;package=com.itau;scheme=itau;end"
+              href="https://play.google.com/store/search?q=Ita%C3%BA&c=apps"
               className="flex items-center gap-2 w-40 px-3 py-1.5 bg-[#FF6600] text-white text-sm rounded hover:bg-[#e65c00] transition-colors duration-300"
             >
               <PiggyBank size={18} />
@@ -81,7 +81,7 @@ function TaskPage() {
             </a>
 
             <a
-              href="intent://#Intent;package=br.com.bb.android;scheme=bb;end"
+              href="https://play.google.com/store/search?q=Banco+do+Brasil&c=apps"
               className="flex items-center gap-2 w-40 px-3 py-1.5 bg-yellow-400 text-gray-900 text-sm rounded hover:bg-yellow-300 transition-colors duration-300"
             >
               <Landmark size={18} />
