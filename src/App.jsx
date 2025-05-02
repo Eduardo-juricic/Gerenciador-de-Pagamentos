@@ -92,7 +92,7 @@ function App() {
             darkMode ? "text-white" : "text-slate-100"
           )}
         >
-          Gerenciador de Tarefas
+          Gerenciador de Contas
         </h1>
 
         <AddTask onAddTaskSubmit={onAddTaskSubmit} />

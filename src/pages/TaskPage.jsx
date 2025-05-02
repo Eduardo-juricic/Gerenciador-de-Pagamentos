@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useContext } from "react"; // Import useContext
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { clsx } from "clsx";
+import { Banknote, Landmark, CreditCard, PiggyBank } from "lucide-react";
 
 function TaskPage() {
   const [searchParams] = useSearchParams();
@@ -35,7 +36,7 @@ function TaskPage() {
             darkMode ? "text-white" : "text-slate-100"
           )}
         >
-          Detalhes da Tarefa
+          Detalhes da Conta
         </h1>
         <div
           className={clsx(
@@ -54,12 +55,39 @@ function TaskPage() {
           <p className={clsx(darkMode ? "text-white" : "text-slate-600")}>
             {description}
           </p>
-          <a
-            href="intent://#Intent;package=com.nu.production;scheme=nubank;end"
-            className="mt-6 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors duration-300 inline-block"
-          >
-            Abrir Nubank
-          </a>
+          <div className="flex flex-col space-y-3 mt-6">
+            <a
+              href="intent://#Intent;package=com.nu.production;scheme=nubank;end"
+              className="flex items-center gap-2 w-40 px-3 py-1.5 bg-purple-600 text-white text-sm rounded hover:bg-purple-700 transition-colors duration-300"
+            >
+              <CreditCard size={18} />
+              Nubank
+            </a>
+
+            <a
+              href="intent://#Intent;package=com.intermedium.interpag;scheme=inter;end"
+              className="flex items-center gap-2 w-40 px-3 py-1.5 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 transition-colors duration-300"
+            >
+              <Banknote size={18} />
+              Banco Inter
+            </a>
+
+            <a
+              href="intent://#Intent;package=com.itau;scheme=itau;end"
+              className="flex items-center gap-2 w-40 px-3 py-1.5 bg-[#FF6600] text-white text-sm rounded hover:bg-[#e65c00] transition-colors duration-300"
+            >
+              <PiggyBank size={18} />
+              Itaú
+            </a>
+
+            <a
+              href="intent://#Intent;package=br.com.bb.android;scheme=bb;end"
+              className="flex items-center gap-2 w-40 px-3 py-1.5 bg-yellow-400 text-gray-900 text-sm rounded hover:bg-yellow-300 transition-colors duration-300"
+            >
+              <Landmark size={18} />
+              Banco do Brasil
+            </a>
+          </div>
         </div>
       </div>
     </div>
