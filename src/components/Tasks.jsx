@@ -1,7 +1,7 @@
-import { ChevronRightIcon, TrashIcon, EditIcon } from "lucide-react"; // Importe EditIcon
+import { ChevronRightIcon, TrashIcon, EditIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-import { useContext } from "react"; // Import useContext
+import { useContext } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { clsx } from "clsx";
 

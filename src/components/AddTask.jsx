@@ -17,7 +17,7 @@ function AddTask({ onAddTaskSubmit }) {
     >
       <Input
         type="text"
-        placeholder="Digite o titulo da tarefa"
+        placeholder="Digite o titulo da conta"
         value={title}
         onChange={(event) => setTitle(event.target.value)}
         className={clsx(
@@ -27,7 +27,7 @@ function AddTask({ onAddTaskSubmit }) {
 
       <Input
         type="text"
-        placeholder="Digite a descrição da tarefa"
+        placeholder="Digite o valor"
         value={description}
         onChange={(event) => setDescription(event.target.value)}
         className={clsx(
