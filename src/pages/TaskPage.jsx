@@ -18,7 +18,7 @@ function TaskPage() {
     >
       {/* Botão para alternar o modo */}
       <button
-        onClick={toggleDarkMode} // Use a função do contexto
+        onClick={toggleDarkMode}
         className={clsx(
           "px-4 py-2 rounded text-sm font-semibold transition-colors duration-300 absolute top-6 right-6",
           darkMode
@@ -54,6 +54,12 @@ function TaskPage() {
           <p className={clsx(darkMode ? "text-white" : "text-slate-600")}>
             {description}
           </p>
+          <a
+            href="intent://#Intent;package=com.nu.production;scheme=nubank;end"
+            className="mt-6 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition-colors duration-300 inline-block"
+          >
+            Abrir Nubank
+          </a>
         </div>
       </div>
     </div>
