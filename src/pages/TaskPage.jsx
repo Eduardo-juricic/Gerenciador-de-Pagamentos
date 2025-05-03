@@ -1,10 +1,17 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useContext } from "react"; // Import useContext
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { clsx } from "clsx";
-import { Banknote, Landmark, CreditCard, PiggyBank } from "lucide-react";
+import {
+  Banknote,
+  Landmark,
+  CreditCard,
+  PiggyBank,
+  ChevronLeftIcon,
+} from "lucide-react";
 
 function TaskPage() {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { darkMode, toggleDarkMode } = useContext(ThemeContext); // Acesse o contexto
   const title = searchParams.get("title");
@@ -30,14 +37,22 @@ function TaskPage() {
         Alternar para {darkMode ? "Modo Claro" : "Modo Escuro"}
       </button>
       <div className="w-[500px] space-y-4">
-        <h1
-          className={clsx(
-            "text-3xl font-bold text-center",
-            darkMode ? "text-white" : "text-slate-100"
-          )}
-        >
-          Detalhes da Conta
-        </h1>
+        <div className="flex justify-center relative mb-6">
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute left-0 top-0 bottom-0 text-slate-100"
+          >
+            <ChevronLeftIcon />
+          </button>
+          <h1
+            className={clsx(
+              "text-3xl font-bold text-center",
+              darkMode ? "text-white" : "text-slate-100"
+            )}
+          >
+            Detalhes da Conta
+          </h1>
+        </div>
         <div
           className={clsx(
             "p-4 rounded-md",
