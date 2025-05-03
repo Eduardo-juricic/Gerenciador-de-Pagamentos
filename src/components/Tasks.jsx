@@ -14,6 +14,7 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
     query.set("title", task.title);
     query.set("description", task.description);
     query.set("dueDate", task.dueDate);
+    query.set("barcode", task.barcode); // Certifique-se de que esta linha está presente
     navigate(`/task?${query.toString()}`);
   }
 
@@ -58,8 +59,6 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
               </div>
             </button>
             <div className="flex gap-2 ml-2">
-              {" "}
-              {/* Adicionada a classe ml-2 */}
               <Button
                 onClick={() => onSeeDatailsClick(task)}
                 className={clsx(
@@ -82,17 +81,20 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
               >
                 <TrashIcon />
               </button>
-              <button // Botão de editar
-                onClick={() => onStartEdit(task)}
-                className={clsx(
-                  "p-2 rounded-md text-white transition-transform duration-150 hover:scale-105",
-                  darkMode
-                    ? "bg-blue-600 hover:bg-blue-700"
-                    : "bg-slate-400 hover:bg-slate-500"
-                )}
-              >
-                <EditIcon />
-              </button>
+              {/* Renderiza o botão de edição apenas se a tarefa NÃO estiver concluída */}
+              {!task.isCompleted && (
+                <button // Botão de editar
+                  onClick={() => onStartEdit(task)}
+                  className={clsx(
+                    "p-2 rounded-md text-white transition-transform duration-150 hover:scale-105",
+                    darkMode
+                      ? "bg-blue-600 hover:bg-blue-700"
+                      : "bg-slate-400 hover:bg-slate-500"
+                  )}
+                >
+                  <EditIcon />
+                </button>
+              )}
             </div>
           </div>
         </li>

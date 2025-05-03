@@ -35,26 +35,38 @@ function App() {
     setTasks(newTasks);
   }
 
-  function onAddTaskSubmit(title, description, dueDate) {
+  function onAddTaskSubmit(title, description, dueDate, barcode) {
     const newtask = {
       id: v4(),
       title,
       description,
       isCompleted: false,
       dueDate: dueDate,
+      barcode: barcode, // Adicionamos a propriedade barcode aqui
     };
     setTasks([...tasks, newtask]);
   }
-
   const handleStartEdit = (task) => {
     setTaskToEdit(task);
     setIsEditing(true);
   };
 
-  const handleSaveEdit = (id, newTitle, newDescription) => {
+  const handleSaveEdit = (
+    id,
+    newTitle,
+    newDescription,
+    newDueDate,
+    newBarcode
+  ) => {
     const updatedTasks = tasks.map((task) =>
       task.id === id
-        ? { ...task, title: newTitle, description: newDescription }
+        ? {
+            ...task,
+            title: newTitle,
+            description: newDescription,
+            dueDate: newDueDate,
+            barcode: newBarcode,
+          } // Adicionamos barcode aqui
         : task
     );
     setTasks(updatedTasks);

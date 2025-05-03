@@ -1,16 +1,66 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function EditTask({ task, onSaveEdit, onCancelEdit }) {
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
+  const [editMonth, setEditMonth] = useState("");
+  const [editYear, setEditYear] = useState("");
+  const [editBarcode, setEditBarcode] = useState(task.barcode || "");
+
+  useEffect(() => {
+    if (task && task.dueDate) {
+      const [year, month] = task.dueDate.split("-");
+      setEditMonth(month);
+      setEditYear(year);
+    } else {
+      setEditMonth("");
+      setEditYear("");
+    }
+    setEditBarcode(task.barcode || "");
+  }, [task]);
 
   const handleSave = () => {
-    onSaveEdit(task.id, title, description);
+    onSaveEdit(
+      task.id,
+      title,
+      description,
+      `${editYear}-${editMonth}`,
+      editBarcode
+    );
   };
 
+  const months = [
+    { value: "01", label: "Jan" },
+    { value: "02", label: "Fev" },
+    { value: "03", label: "Mar" },
+    { value: "04", label: "Abr" },
+    { value: "05", label: "Mai" },
+    { value: "06", label: "Jun" },
+    { value: "07", label: "Jul" },
+    { value: "08", label: "Ago" },
+    { value: "09", label: "Set" },
+    { value: "10", label: "Out" },
+    { value: "11", label: "Nov" },
+    { value: "12", label: "Dez" },
+  ];
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 5 }, (_, i) => currentYear + i).map(
+    (year) => ({
+      value: String(year),
+      label: String(year),
+    })
+  );
+
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-md shadow-md w-96">
+    <div
+      className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
+      style={{ zIndex: 1000 }}
+    >
+      <div
+        className="p-6 rounded-md shadow-md w-96"
+        style={{ backgroundColor: "white", zIndex: 1001 }} // Adicionamos zIndex aqui também
+      >
         <h2 className="text-xl font-semibold mb-4">Editar Tarefa</h2>
         <div className="mb-4">
           <label
@@ -43,6 +93,62 @@ function EditTask({ task, onSaveEdit, onCancelEdit }) {
             placeholder="Descrição"
             rows="3"
           />
+        </div>
+        <div className="mb-4">
+          <label
+            htmlFor="edit-barcode"
+            className="block text-gray-700 text-sm font-bold mb-2"
+          >
+            Código de barras:
+          </label>
+          <input
+            type="text"
+            id="edit-barcode"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value={editBarcode}
+            onChange={(e) => setEditBarcode(e.target.value)}
+            placeholder="Código de barras"
+          />
+        </div>
+        <div className="flex gap-2 items-center mb-4">
+          <label
+            htmlFor="edit-month"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Mês:
+          </label>
+          <select
+            id="edit-month"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value={editMonth}
+            onChange={(e) => setEditMonth(e.target.value)}
+          >
+            <option value="">Mês</option>
+            {months.map((m) => (
+              <option key={m.value} value={m.value}>
+                {m.label}
+              </option>
+            ))}
+          </select>
+          <label
+            htmlFor="edit-year"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Ano:
+          </label>
+          <select
+            id="edit-year"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value={editYear}
+            onChange={(e) => setEditYear(e.target.value)}
+          >
+            <option value="">Ano</option>
+            {years.map((y) => (
+              <option key={y.value} value={y.value}>
+                {y.label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="flex justify-end gap-2">
           <button

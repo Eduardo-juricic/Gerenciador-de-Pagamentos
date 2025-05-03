@@ -8,6 +8,7 @@ function AddTask({ onAddTaskSubmit }) {
   const [description, setDescription] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const [barcode, setBarcode] = useState(""); // Novo estado para o código de barras
   const { darkMode } = useContext(ThemeContext); // Acesse o estado darkMode do contexto
 
   const months = [
@@ -61,6 +62,19 @@ function AddTask({ onAddTaskSubmit }) {
         )}
       />
 
+      <Input
+        type="text"
+        placeholder="Código de barras (opcional)"
+        value={barcode}
+        onChange={(event) => setBarcode(event.target.value)}
+        className={clsx(
+          "border rounded-md py-2 px-3 w-full",
+          darkMode
+            ? "bg-gray-700 text-white border-gray-600"
+            : "bg-white text-gray-900 border-slate-300"
+        )}
+      />
+
       <div className="flex gap-2">
         <select
           value={month}
@@ -109,11 +123,12 @@ function AddTask({ onAddTaskSubmit }) {
             return alert("Preencha o titulo, valor e selecione o mês e ano.");
           }
           const dueDate = `${year}-${month}-01`;
-          onAddTaskSubmit(title, description, dueDate);
+          onAddTaskSubmit(title, description, dueDate, barcode); // Passando o barcode
           setTitle("");
           setDescription("");
           setMonth("");
           setYear("");
+          setBarcode(""); // Limpando o estado do barcode
         }}
         className={clsx(
           "px-4 py-2 rounded-md font-medium",
