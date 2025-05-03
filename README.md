@@ -1,36 +1,24 @@
-# 💸 App de Pagamento de Contas · React + Tailwind
+## 💸 PayEase – App de Pagamento de Contas
 
-Uma aplicação web desenvolvida com **React.js** e **Tailwind CSS** para facilitar o acesso rápido a aplicativos bancários e auxiliar no pagamento de contas.  
-Com apenas um clique, o usuário é redirecionado para o app do banco instalado em seu dispositivo ou para a loja de aplicativos.
+**PayEase** é uma aplicação web desenvolvida com **React.js** e **Tailwind CSS** que facilita o gerenciamento de contas e o acesso rápido a apps bancários. Com uma interface moderna e responsiva, o usuário pode **criar uma lista personalizada de contas a pagar**, marcar as já quitadas e, com apenas um clique, **abrir diretamente o aplicativo do banco instalado em seu dispositivo Android** — ou ser redirecionado para a Play Store, caso o app não esteja instalado.
 
----
+### ✨ Funcionalidades
+- 🧾 **Lista de contas a pagar**: adicione, visualize e remova contas de forma simples.
+- 🏦 **Acesso rápido a bancos populares** como Nubank, Inter, Itaú e Banco do Brasil.
+- 🔗 **Links inteligentes com suporte a `intent://`** (Android) e fallback automático para a Play Store.
+- 💅 Interface moderna e responsiva utilizando **Tailwind CSS**.
+- ⚡ Botões com ícones intuitivos para uma navegação rápida e eficiente.
 
-## ✨ Funcionalidades
+### 🧰 Tecnologias Utilizadas
+- React.js
+- Tailwind CSS
+- Vite
+- Lucide Icons
 
-- 🏦 **Acesso rápido** a apps de bancos populares
-- 🔗 **Links inteligentes** com fallback para a Play Store
-- 💅 **Interface moderna e responsiva** com Tailwind CSS
-- 📱 Compatível com **dispositivos Android** via links `intent://`
+### 🚀 Deploy
+🔗 [Ver App na Vercel](https://lista-de-tarefas-ecru-ten.vercel.app/)
 
----
-
-## 🧰 Tecnologias Utilizadas
-
-- [React.js](https://reactjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Vite](https://vitejs.dev/)
-- [Lucide Icons](https://lucide.dev/)
-
----
-
-## 🚀 Deploy
-
-- [🔗 Ver App na Vercel](https://lista-de-tarefas-ecru-ten.vercel.app/)
-
----
-
-## 🛠️ Como rodar localmente
-
+### 🛠️ Como rodar localmente
 ```bash
 # Clone o repositório
 git clone https://github.com/SEU_USUARIO/react-pagamento-contas.git
@@ -39,6 +27,7 @@ cd react-pagamento-contas
 # Instale as dependências
 npm install
 
-# Inicie o servidor
+# Inicie o servidor de desenvolvimento
 npm run dev
+
 
