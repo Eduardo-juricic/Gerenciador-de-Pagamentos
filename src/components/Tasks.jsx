@@ -1,4 +1,4 @@
-import { ChevronRightIcon, TrashIcon, EditIcon } from "lucide-react";
+import { ChevronRightIcon, TrashIcon, EditIcon, CheckIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { useContext } from "react";
@@ -6,19 +6,17 @@ import { ThemeContext } from "../../contexts/ThemeContext";
 import { clsx } from "clsx";
 
 function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
-  // Receba onStartEdit como prop
   const navigate = useNavigate();
-  const { darkMode } = useContext(ThemeContext); // Acesse o estado darkMode
+  const { darkMode } = useContext(ThemeContext);
 
   function onSeeDatailsClick(task) {
     const query = new URLSearchParams();
     query.set("title", task.title);
     query.set("description", task.description);
-    query.set("dueDate", task.dueDate); // Passe a data para os detalhes
+    query.set("dueDate", task.dueDate);
     navigate(`/task?${query.toString()}`);
   }
 
-  // Função auxiliar para formatar a data
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const [year, month] = dateString.split("-");
@@ -26,63 +24,77 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
   };
 
   return (
-    <ul
-      className={clsx(
-        "space-y-4 p-6 rounded-md shadow",
-        darkMode ? "bg-gray-800 text-white" : "bg-slate-200"
-      )}
-    >
+    <ul className="space-y-4">
       {tasks.map((task) => (
         <li key={task.id} className="flex gap-2">
-          <button
-            onClick={() => onTaskClick(task.id)}
+          <div
             className={clsx(
-              "text-left w-full p-2 rounded-md flex items-center", // Mantemos o flex e items-center
-              darkMode ? "bg-gray-700 text-white" : "bg-slate-400 text-white",
-              task.isCompleted && "line-through",
-              "justify-between" // Adicionamos justify-between novamente
+              "w-full rounded-md shadow-md p-4 flex items-center justify-between",
+              darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900",
+              task.isCompleted && "opacity-70"
             )}
           >
-            <span>{task.title}</span>
-            {task.dueDate && (
-              <span className="text-sm opacity-70">
-                {formatDate(task.dueDate)}
-              </span>
-            )}
-          </button>
-          <Button
-            onClick={() => onSeeDatailsClick(task)}
-            className={clsx(
-              "p-2 rounded-md text-white",
-              darkMode
-                ? "bg-indigo-600 hover:bg-indigo-700"
-                : "bg-slate-400 hover:bg-slate-500"
-            )}
-          >
-            <ChevronRightIcon />
-          </Button>
-          <button
-            onClick={() => onDeleteTaskClick(task.id)}
-            className={clsx(
-              "p-2 rounded-md text-white",
-              darkMode
-                ? "bg-red-600 hover:bg-red-700"
-                : "bg-slate-400 hover:bg-slate-500"
-            )}
-          >
-            <TrashIcon />
-          </button>
-          <button // Botão de editar
-            onClick={() => onStartEdit(task)}
-            className={clsx(
-              "p-2 rounded-md text-white",
-              darkMode
-                ? "bg-blue-600 hover:bg-blue-700"
-                : "bg-slate-400 hover:bg-slate-500"
-            )}
-          >
-            <EditIcon />
-          </button>
+            <button
+              onClick={() => onTaskClick(task.id)}
+              className="flex-grow text-left"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  {task.isCompleted && (
+                    <CheckIcon
+                      className="text-green-500 mr-2 inline-block"
+                      size={20}
+                    />
+                  )}
+                  <span className={task.isCompleted && "line-through"}>
+                    {task.title}
+                  </span>
+                </div>
+                {task.dueDate && (
+                  <span className="text-sm opacity-70">
+                    {formatDate(task.dueDate)}
+                  </span>
+                )}
+              </div>
+            </button>
+            <div className="flex gap-2 ml-2">
+              {" "}
+              {/* Adicionada a classe ml-2 */}
+              <Button
+                onClick={() => onSeeDatailsClick(task)}
+                className={clsx(
+                  "p-2 rounded-md text-white transition-transform duration-150 hover:scale-105",
+                  darkMode
+                    ? "bg-indigo-600 hover:bg-indigo-700"
+                    : "bg-slate-400 hover:bg-slate-500"
+                )}
+              >
+                <ChevronRightIcon />
+              </Button>
+              <button
+                onClick={() => onDeleteTaskClick(task.id)}
+                className={clsx(
+                  "p-2 rounded-md text-white transition-transform duration-150 hover:scale-105",
+                  darkMode
+                    ? "bg-red-600 hover:bg-red-700"
+                    : "bg-slate-400 hover:bg-slate-500"
+                )}
+              >
+                <TrashIcon />
+              </button>
+              <button // Botão de editar
+                onClick={() => onStartEdit(task)}
+                className={clsx(
+                  "p-2 rounded-md text-white transition-transform duration-150 hover:scale-105",
+                  darkMode
+                    ? "bg-blue-600 hover:bg-blue-700"
+                    : "bg-slate-400 hover:bg-slate-500"
+                )}
+              >
+                <EditIcon />
+              </button>
+            </div>
+          </div>
         </li>
       ))}
     </ul>
