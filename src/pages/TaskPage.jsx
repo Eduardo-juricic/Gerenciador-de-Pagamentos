@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useContext } from "react"; // Import useContext
+import { useContext, useState } from "react"; // Import useState
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { clsx } from "clsx";
 import {
@@ -8,21 +8,42 @@ import {
   CreditCard,
   PiggyBank,
   ChevronLeftIcon,
+  Copy, // Importe o ícone de copiar
 } from "lucide-react";
 
 function TaskPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { darkMode, toggleDarkMode } = useContext(ThemeContext); // Acesse o contexto
+  const { darkMode, toggleDarkMode } = useContext(ThemeContext);
   const title = searchParams.get("title");
   const description = searchParams.get("description");
-  const dueDate = searchParams.get("dueDate"); // Recupera a dueDate
+  const dueDate = searchParams.get("dueDate");
+  const barcode = searchParams.get("barcode"); // Recupera o barcode
+  const [copySuccess, setCopySuccess] = useState(""); // Estado para feedback de cópia
 
-  // Função auxiliar para formatar a data (a mesma que você usou em Tasks)
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const [year, month] = dateString.split("-");
     return `${month}/${year}`;
+  };
+
+  const handleCopyToClipboard = () => {
+    if (barcode) {
+      navigator.clipboard
+        .writeText(barcode)
+        .then(() => {
+          setCopySuccess("Código de barras copiado!");
+          setTimeout(() => setCopySuccess(""), 2000); // Limpa a mensagem após 2 segundos
+        })
+        .catch((err) => {
+          console.error("Falha ao copiar código de barras: ", err);
+          setCopySuccess("Falha ao copiar!");
+          setTimeout(() => setCopySuccess(""), 2000);
+        });
+    } else {
+      setCopySuccess("Nenhum código de barras para copiar.");
+      setTimeout(() => setCopySuccess(""), 2000);
+    }
   };
 
   return (
@@ -78,7 +99,7 @@ function TaskPage() {
           <p className={clsx(darkMode ? "text-white" : "text-slate-600")}>
             {description}
           </p>
-          {dueDate && ( // Renderiza a data apenas se ela existir
+          {dueDate && (
             <p
               className={clsx(
                 "text-sm opacity-70",
@@ -88,6 +109,53 @@ function TaskPage() {
               Vencimento: {formatDate(dueDate)}
             </p>
           )}
+
+          {barcode && (
+            <div className="mt-4">
+              <p
+                className={clsx(
+                  "font-semibold",
+                  darkMode ? "text-white" : "text-slate-600"
+                )}
+              >
+                Código de barras:
+              </p>
+              <button
+                onClick={handleCopyToClipboard}
+                className={clsx(
+                  "inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
+                  darkMode
+                    ? "bg-gray-700 hover:bg-gray-600 text-white"
+                    : "bg-slate-200 hover:bg-slate-300 text-gray-900"
+                )}
+              >
+                {barcode} <Copy size={16} />
+              </button>
+              {copySuccess && (
+                <p
+                  className={clsx(
+                    "text-xs mt-1",
+                    copySuccess.includes("Falha")
+                      ? "text-red-500"
+                      : "text-green-500"
+                  )}
+                >
+                  {copySuccess}
+                </p>
+              )}
+            </div>
+          )}
+          {!barcode && (
+            <p
+              className={clsx(
+                "mt-4 text-sm opacity-70",
+                darkMode ? "text-white" : "text-slate-600"
+              )}
+            >
+              Nenhum código de barras cadastrado.
+            </p>
+          )}
+
           <div className="flex flex-col space-y-3 mt-6">
             <a
               href="https://play.google.com/store/search?q=Nubank&c=apps"
