@@ -1,4 +1,4 @@
-import { useState, useContext } from "react"; // Import useContext
+import { useState, useContext } from "react";
 import Input from "./Input";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { clsx } from "clsx";
@@ -6,10 +6,12 @@ import { clsx } from "clsx";
 function AddTask({ onAddTaskSubmit }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [day, setDay] = useState(""); // Novo estado para o dia
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
-  const [barcode, setBarcode] = useState(""); // Novo estado para o código de barras
-  const { darkMode } = useContext(ThemeContext); // Acesse o estado darkMode do contexto
+  const [barcode, setBarcode] = useState("");
+
+  const { darkMode } = useContext(ThemeContext);
 
   const months = [
     { value: "01", label: "Janeiro" },
@@ -27,7 +29,7 @@ function AddTask({ onAddTaskSubmit }) {
   ];
 
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 10 }, (_, index) => currentYear + index); // Próximos 10 anos
+  const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
 
   return (
     <div
@@ -55,10 +57,10 @@ function AddTask({ onAddTaskSubmit }) {
         value={description}
         onChange={(event) => setDescription(event.target.value)}
         className={clsx(
-          "border rounded-md py-2 px-3 w-full", // Classes para o modo claro
+          "border rounded-md py-2 px-3 w-full",
           darkMode
             ? "bg-gray-700 text-white border-gray-600"
-            : "bg-white text-gray-900 border-slate-300" // Classes para o modo escuro
+            : "bg-white text-gray-900 border-slate-300"
         )}
       />
 
@@ -76,11 +78,25 @@ function AddTask({ onAddTaskSubmit }) {
       />
 
       <div className="flex gap-2">
+        <Input
+          type="number"
+          placeholder="Dia"
+          value={day}
+          onChange={(e) => setDay(e.target.value)}
+          className={clsx(
+            "px-2 py-1 rounded-md w-1/4", // Ajuste a largura conforme necessário
+            darkMode
+              ? "bg-gray-700 text-white border-gray-600"
+              : "bg-white text-gray-900 border-slate-300"
+          )}
+          min="1"
+          max="31"
+        />
         <select
           value={month}
           onChange={(e) => setMonth(e.target.value)}
           className={clsx(
-            "px-2 py-1 rounded-md",
+            "px-2 py-1 rounded-md flex-grow", // Ocupa o espaço restante
             darkMode
               ? "bg-gray-700 text-white border-gray-600"
               : "bg-white text-gray-900 border-slate-300"
@@ -100,7 +116,7 @@ function AddTask({ onAddTaskSubmit }) {
           value={year}
           onChange={(e) => setYear(e.target.value)}
           className={clsx(
-            "px-2 py-1 rounded-md",
+            "px-2 py-1 rounded-md w-1/3", // Ajuste a largura conforme necessário
             darkMode
               ? "bg-gray-700 text-white border-gray-600"
               : "bg-white text-gray-900 border-slate-300"
@@ -119,16 +135,19 @@ function AddTask({ onAddTaskSubmit }) {
 
       <button
         onClick={() => {
-          if (!title.trim() || !description.trim() || !month || !year) {
-            return alert("Preencha o titulo, valor e selecione o mês e ano.");
+          if (!title.trim() || !description.trim() || !month || !year || !day) {
+            return alert(
+              "Preencha o titulo, valor e selecione o dia, mês e ano."
+            );
           }
-          const dueDate = `${year}-${month}-01`;
-          onAddTaskSubmit(title, description, dueDate, barcode); // Passando o barcode
+          const dueDate = `${year}-${month}-${String(day).padStart(2, "0")}`; // Formato YYYY-MM-DD
+          onAddTaskSubmit(title, description, dueDate, barcode);
           setTitle("");
           setDescription("");
+          setDay("");
           setMonth("");
           setYear("");
-          setBarcode(""); // Limpando o estado do barcode
+          setBarcode("");
         }}
         className={clsx(
           "px-4 py-2 rounded-md font-medium",

@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useContext, useState } from "react"; // Import useState
+import { useContext, useState } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { clsx } from "clsx";
 import {
@@ -8,7 +8,7 @@ import {
   CreditCard,
   PiggyBank,
   ChevronLeftIcon,
-  Copy, // Importe o ícone de copiar
+  Copy,
 } from "lucide-react";
 
 function TaskPage() {
@@ -18,13 +18,13 @@ function TaskPage() {
   const title = searchParams.get("title");
   const description = searchParams.get("description");
   const dueDate = searchParams.get("dueDate");
-  const barcode = searchParams.get("barcode"); // Recupera o barcode
-  const [copySuccess, setCopySuccess] = useState(""); // Estado para feedback de cópia
+  const barcode = searchParams.get("barcode");
+  const [copySuccess, setCopySuccess] = useState("");
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
-    const [year, month] = dateString.split("-");
-    return `${month}/${year}`;
+    const [year, month, day] = dateString.split("-"); // Agora capturamos o dia
+    return `${day}/${month}/${year}`; // Formato DD/MM/AAAA
   };
 
   const handleCopyToClipboard = () => {
@@ -33,7 +33,7 @@ function TaskPage() {
         .writeText(barcode)
         .then(() => {
           setCopySuccess("Código de barras copiado!");
-          setTimeout(() => setCopySuccess(""), 2000); // Limpa a mensagem após 2 segundos
+          setTimeout(() => setCopySuccess(""), 2000);
         })
         .catch((err) => {
           console.error("Falha ao copiar código de barras: ", err);
