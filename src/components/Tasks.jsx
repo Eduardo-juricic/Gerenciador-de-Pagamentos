@@ -14,8 +14,16 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
     const query = new URLSearchParams();
     query.set("title", task.title);
     query.set("description", task.description);
+    query.set("dueDate", task.dueDate); // Passe a data para os detalhes
     navigate(`/task?${query.toString()}`);
   }
+
+  // Função auxiliar para formatar a data
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const [year, month] = dateString.split("-");
+    return `${month}/${year}`;
+  };
 
   return (
     <ul
@@ -29,12 +37,18 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
           <button
             onClick={() => onTaskClick(task.id)}
             className={clsx(
-              "text-left w-full p-2 rounded-md",
+              "text-left w-full p-2 rounded-md flex items-center", // Mantemos o flex e items-center
               darkMode ? "bg-gray-700 text-white" : "bg-slate-400 text-white",
-              task.isCompleted && "line-through"
+              task.isCompleted && "line-through",
+              "justify-between" // Adicionamos justify-between novamente
             )}
           >
-            {task.title}
+            <span>{task.title}</span>
+            {task.dueDate && (
+              <span className="text-sm opacity-70">
+                {formatDate(task.dueDate)}
+              </span>
+            )}
           </button>
           <Button
             onClick={() => onSeeDatailsClick(task)}

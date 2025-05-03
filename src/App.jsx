@@ -34,12 +34,13 @@ function App() {
     setTasks(newTasks);
   }
 
-  function onAddTaskSubmit(title, description) {
+  function onAddTaskSubmit(title, description, dueDate) {
     const newtask = {
       id: v4(),
       title,
       description,
       isCompleted: false,
+      dueDate: dueDate,
     };
     setTasks([...tasks, newtask]);
   }
