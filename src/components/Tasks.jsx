@@ -14,14 +14,14 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
     query.set("title", task.title);
     query.set("description", task.description);
     query.set("dueDate", task.dueDate);
-    query.set("barcode", task.barcode); // Certifique-se de que esta linha está presente
+    query.set("barcode", task.barcode);
     navigate(`/task?${query.toString()}`);
   }
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
-    const [year, month] = dateString.split("-");
-    return `${month}/${year}`;
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`; // Formato DD/MM/AAAA
   };
 
   return (
@@ -81,9 +81,8 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
               >
                 <TrashIcon />
               </button>
-              {/* Renderiza o botão de edição apenas se a tarefa NÃO estiver concluída */}
               {!task.isCompleted && (
-                <button // Botão de editar
+                <button
                   onClick={() => onStartEdit(task)}
                   className={clsx(
                     "p-2 rounded-md text-white transition-transform duration-150 hover:scale-105",
