@@ -41,7 +41,10 @@ function AddTask({ onAddTaskSubmit }) {
         value={title}
         onChange={(event) => setTitle(event.target.value)}
         className={clsx(
-          darkMode ? "bg-gray-700 text-white border-gray-600" : ""
+          "border rounded-md py-2 px-3 w-full ",
+          darkMode
+            ? "bg-gray-700 text-white border-gray-600"
+            : "bg-white text-gray-900 border-slate-300"
         )}
       />
 
@@ -51,7 +54,10 @@ function AddTask({ onAddTaskSubmit }) {
         value={description}
         onChange={(event) => setDescription(event.target.value)}
         className={clsx(
-          darkMode ? "bg-gray-700 text-white border-gray-600" : ""
+          "border rounded-md py-2 px-3 w-full", // Classes para o modo claro
+          darkMode
+            ? "bg-gray-700 text-white border-gray-600"
+            : "bg-white text-gray-900 border-slate-300" // Classes para o modo escuro
         )}
       />
 
@@ -102,8 +108,8 @@ function AddTask({ onAddTaskSubmit }) {
           if (!title.trim() || !description.trim() || !month || !year) {
             return alert("Preencha o titulo, valor e selecione o mês e ano.");
           }
-          const dueDate = `${year}-${month}-01`; // Formate a data como YYYY-MM-DD (o dia não é relevante aqui)
-          onAddTaskSubmit(title, description, dueDate); // Passe a data para a função de submit
+          const dueDate = `${year}-${month}-01`;
+          onAddTaskSubmit(title, description, dueDate);
           setTitle("");
           setDescription("");
           setMonth("");

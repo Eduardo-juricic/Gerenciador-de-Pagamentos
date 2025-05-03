@@ -16,6 +16,14 @@ function TaskPage() {
   const { darkMode, toggleDarkMode } = useContext(ThemeContext); // Acesse o contexto
   const title = searchParams.get("title");
   const description = searchParams.get("description");
+  const dueDate = searchParams.get("dueDate"); // Recupera a dueDate
+
+  // Função auxiliar para formatar a data (a mesma que você usou em Tasks)
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const [year, month] = dateString.split("-");
+    return `${month}/${year}`;
+  };
 
   return (
     <div
@@ -70,6 +78,16 @@ function TaskPage() {
           <p className={clsx(darkMode ? "text-white" : "text-slate-600")}>
             {description}
           </p>
+          {dueDate && ( // Renderiza a data apenas se ela existir
+            <p
+              className={clsx(
+                "text-sm opacity-70",
+                darkMode ? "text-white" : "text-slate-600"
+              )}
+            >
+              Vencimento: {formatDate(dueDate)}
+            </p>
+          )}
           <div className="flex flex-col space-y-3 mt-6">
             <a
               href="https://play.google.com/store/search?q=Nubank&c=apps"

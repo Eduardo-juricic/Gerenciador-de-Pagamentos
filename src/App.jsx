@@ -5,7 +5,8 @@ import "./index.css";
 import { v4 } from "uuid";
 import { clsx } from "clsx";
 import { ThemeContext } from "../contexts/ThemeContext";
-import EditTask from "./components/EditTask"; // Importe o componente EditTask
+import EditTask from "./components/EditTask";
+import { Sun, Moon } from "lucide-react";
 
 function App() {
   const [tasks, setTasks] = useState(
@@ -73,18 +74,18 @@ function App() {
         darkMode ? "bg-gray-900 text-white" : "bg-slate-500 text-gray-900"
       )}
     >
-      <div className="w-[500px] space-y-4">
+      <div className="w-[500px] space-y-4 pt-20 md:pt-6">
         {/* Botão para alternar o modo */}
         <button
-          onClick={toggleDarkMode} // Use a função do contexto
+          onClick={toggleDarkMode}
           className={clsx(
-            "px-4 py-2 rounded text-sm font-semibold transition-colors duration-300 absolute bottom-6 right-6",
+            "p-2 rounded-full transition-colors duration-300 absolute top-6 right-6 z-10",
             darkMode
-              ? "bg-white text-gray-900 hover:bg-gray-200"
-              : "bg-gray-800 text-white hover:bg-gray-600"
+              ? "bg-gray-800 text-white hover:bg-gray-700"
+              : "bg-yellow-400 text-gray-900 hover:bg-yellow-500"
           )}
         >
-          Alternar para {darkMode ? "Light Mode" : "Dark mode"}
+          {darkMode ? <Moon size={20} /> : <Sun size={20} />}
         </button>
 
         <h1
