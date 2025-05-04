@@ -21,7 +21,7 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const [year, month, day] = dateString.split("-");
-    return `${day}/${month}/${year}`; // Formato DD/MM/AAAA
+    return `${day}/${month}/${year}`;
   };
 
   return (
@@ -32,7 +32,7 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
             className={clsx(
               "w-full rounded-md shadow-md p-4 flex items-center justify-between",
               darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900",
-              task.isCompleted && "opacity-70"
+              task.isCompleted ? "opacity-70" : undefined // Linha 24 modificada
             )}
           >
             <button
@@ -43,11 +43,16 @@ function Tasks({ tasks, onTaskClick, onDeleteTaskClick, onStartEdit }) {
                 <div className="flex items-center">
                   {task.isCompleted && (
                     <CheckIcon
-                      className="text-green-500 mr-2 inline-block"
+                      className={clsx(
+                        "mr-2 inline-block",
+                        task.isCompleted && "text-green-500"
+                      )}
                       size={20}
                     />
                   )}
-                  <span className={task.isCompleted && "line-through"}>
+                  <span
+                    className={task.isCompleted ? "line-through" : undefined}
+                  >
                     {task.title}
                   </span>
                 </div>
