@@ -1,15 +1,21 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import Input from "./Input";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { clsx } from "clsx";
+import { BrowserMultiFormatReader } from "@zxing/browser";
+import { NotFoundException } from "@zxing/library";
 
 function AddTask({ onAddTaskSubmit }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [day, setDay] = useState(""); // Novo estado para o dia
+  const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [barcode, setBarcode] = useState("");
+  const [scanning, setScanning] = useState(false);
+  const videoInputRef = useRef(null);
+  const reader = useRef(null);
+  const [cameraError, setCameraError] = useState("");
 
   const { darkMode } = useContext(ThemeContext);
 
@@ -30,6 +36,45 @@ function AddTask({ onAddTaskSubmit }) {
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 10 }, (_, index) => currentYear + index);
+
+  const startScanning = async () => {
+    setScanning(true);
+    setCameraError("");
+    reader.current = new BrowserMultiFormatReader();
+    try {
+      const devices = await reader.current.listVideoInputDevices();
+      if (devices.length > 0) {
+        await reader.current.decodeFromVideoDevice(
+          undefined,
+          videoInputRef.current,
+          (result, error) => {
+            if (result) {
+              setBarcode(result.getText());
+              setScanning(false);
+              reader.current.reset();
+            }
+            if (error && !(error instanceof NotFoundException)) {
+              console.error("Erro de decodificação:", error);
+            }
+          }
+        );
+      } else {
+        setCameraError("Nenhuma câmera encontrada.");
+        setScanning(false);
+      }
+    } catch (error) {
+      console.error("Erro ao iniciar a câmera:", error);
+      setCameraError("Erro ao acessar a câmera.");
+      setScanning(false);
+    }
+  };
+
+  const stopScanning = () => {
+    if (reader.current) {
+      reader.current.reset();
+      setScanning(false);
+    }
+  };
 
   return (
     <div
@@ -64,18 +109,33 @@ function AddTask({ onAddTaskSubmit }) {
         )}
       />
 
-      <Input
-        type="text"
-        placeholder="Código de barras (opcional)"
-        value={barcode}
-        onChange={(event) => setBarcode(event.target.value)}
-        className={clsx(
-          "border rounded-md py-2 px-3 w-full",
-          darkMode
-            ? "bg-gray-700 text-white border-gray-600"
-            : "bg-white text-gray-900 border-slate-300"
-        )}
-      />
+      <div className="flex items-center gap-2">
+        <Input
+          type="text"
+          placeholder="Código de barras (opcional)"
+          value={barcode}
+          onChange={(event) => setBarcode(event.target.value)}
+          className={clsx(
+            "border rounded-md py-2 px-3 w-full",
+            darkMode
+              ? "bg-gray-700 text-white border-gray-600"
+              : "bg-white text-gray-900 border-slate-300"
+          )}
+        />
+        <button
+          onClick={scanning ? stopScanning : startScanning}
+          className={clsx(
+            "px-3 py-2 rounded-md font-medium",
+            darkMode
+              ? "bg-blue-600 text-white hover:bg-blue-700"
+              : "bg-slate-400 text-white hover:bg-slate-500"
+          )}
+        >
+          {scanning ? "Parar" : "Ler QR/Barra"}
+        </button>
+      </div>
+      {cameraError && <p className="text-red-500 text-sm">{cameraError}</p>}
+      {scanning && <video ref={videoInputRef} className="w-full rounded-md" />}
 
       <div className="flex gap-2">
         <Input
@@ -84,7 +144,7 @@ function AddTask({ onAddTaskSubmit }) {
           value={day}
           onChange={(e) => setDay(e.target.value)}
           className={clsx(
-            "px-2 py-1 rounded-md w-1/4", // Ajuste a largura conforme necessário
+            "px-2 py-1 rounded-md w-1/4",
             darkMode
               ? "bg-gray-700 text-white border-gray-600"
               : "bg-white text-gray-900 border-slate-300"
@@ -96,7 +156,7 @@ function AddTask({ onAddTaskSubmit }) {
           value={month}
           onChange={(e) => setMonth(e.target.value)}
           className={clsx(
-            "px-2 py-1 rounded-md flex-grow", // Ocupa o espaço restante
+            "px-2 py-1 rounded-md flex-grow",
             darkMode
               ? "bg-gray-700 text-white border-gray-600"
               : "bg-white text-gray-900 border-slate-300"
@@ -116,7 +176,7 @@ function AddTask({ onAddTaskSubmit }) {
           value={year}
           onChange={(e) => setYear(e.target.value)}
           className={clsx(
-            "px-2 py-1 rounded-md w-1/3", // Ajuste a largura conforme necessário
+            "px-2 py-1 rounded-md w-1/3",
             darkMode
               ? "bg-gray-700 text-white border-gray-600"
               : "bg-white text-gray-900 border-slate-300"
@@ -140,7 +200,7 @@ function AddTask({ onAddTaskSubmit }) {
               "Preencha o titulo, valor e selecione o dia, mês e ano."
             );
           }
-          const dueDate = `${year}-${month}-${String(day).padStart(2, "0")}`; // Formato YYYY-MM-DD
+          const dueDate = `${year}-${month}-${String(day).padStart(2, "0")}`;
           onAddTaskSubmit(title, description, dueDate, barcode);
           setTitle("");
           setDescription("");
