@@ -2,6 +2,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useContext, useState } from "react";
 import { ThemeContext } from "../../contexts/ThemeContext";
 import { clsx } from "clsx";
+import { Sun, Moon } from "lucide-react";
 import {
   Banknote,
   Landmark,
@@ -57,13 +58,13 @@ function TaskPage() {
       <button
         onClick={toggleDarkMode}
         className={clsx(
-          "px-4 py-2 rounded text-sm font-semibold transition-colors duration-300 absolute top-6 right-6",
+          "p-2 rounded-full transition-colors duration-300 absolute top-6 right-6 z-10",
           darkMode
-            ? "bg-white text-gray-900 hover:bg-gray-200"
-            : "bg-gray-800 text-white hover:bg-gray-600"
+            ? "bg-gray-800 text-white hover:bg-gray-700"
+            : "bg-yellow-400 text-gray-900 hover:bg-yellow-500"
         )}
       >
-        Alternar para {darkMode ? "Modo Claro" : "Modo Escuro"}
+        {darkMode ? <Moon size={20} /> : <Sun size={20} />}
       </button>
       <div className="w-[500px] space-y-4">
         <div className="flex justify-center relative mb-6">
